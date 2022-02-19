@@ -13,6 +13,8 @@ export default abstract class GameObject {
 
   abstract decelerate(): void;
 
+  abstract draw(context: CanvasRenderingContext2D): void;
+
   update(): void {
     this.decelerate();
   }
@@ -26,12 +28,16 @@ export default abstract class GameObject {
     }
   }
 
+  protected get rotationInRadians(): number {
+    return (this.rotation * Math.PI) / 180;
+  }
+
   protected get xDirection(): number {
-    return Math.cos((this.rotation * Math.PI) / 180);
+    return Math.cos(this.rotationInRadians);
   }
 
   protected get yDirection(): number {
-    return Math.sin((this.rotation * Math.PI) / 180);
+    return Math.sin(this.rotationInRadians);
   }
 
   protected get xSpeed(): number {
@@ -42,17 +48,13 @@ export default abstract class GameObject {
     return this.speed * this.yDirection;
   }
 
-  render(canvas: CanvasRenderingContext2D): void {
-    // TODO: Figure out rotations in rendering
-    canvas.fillRect(this.position[0] + 200, this.position[1] + 200, 20, 20);
+  render(context: CanvasRenderingContext2D): void {
+    context.translate(this.position[0], this.position[1]);
+    context.rotate(this.rotationInRadians);
 
-    canvas.strokeStyle = "#ff0000";
-    canvas.beginPath();
-    canvas.moveTo(
-      this.position[0] + 210 + this.xDirection * 10,
-      this.position[1] + 210 + this.yDirection * 10
-    );
-    canvas.lineTo(this.position[0] + 210, this.position[1] + 210);
-    canvas.stroke();
+    this.draw(context);
+
+    context.rotate(-this.rotationInRadians);
+    context.translate(-this.position[0], -this.position[1]);
   }
 }

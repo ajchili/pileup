@@ -11,11 +11,11 @@ export default class Game {
       throw new Error("Unable to initialize canvas context!");
     }
     this.canvasContext = context;
-    this.objectMap.set("player", new Player());
+    this.objectMap.set("player", new Player({ position: [200, 200] }));
 
     // TODO: Make this better, loops should be not here
     setInterval(() => this.render(), 1000 / 60);
-    setInterval(() => this.update(), 1000 / 20);
+    setInterval(() => this.update(), 1000 / 30);
   }
 
   render(): void {

@@ -9,4 +9,11 @@ export default class Player extends ControllableGameObject {
       this.speed = Math.max(0, this.speed - 0.1);
     }
   }
+
+  draw(context: CanvasRenderingContext2D): void {
+    context.fillStyle = "#ff0000";
+    context.fillRect(-10, -10, 4, 20);
+    context.fillStyle = "#000000";
+    context.fillRect(-6, -10, 16, 20);
+  }
 }
