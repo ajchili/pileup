@@ -1,9 +1,21 @@
+export interface GameObjectProps {
+  position: [number, number];
+}
+
 export default abstract class GameObject {
-  protected position: [number, number] = [0, 0];
+  protected position: [number, number];
   protected speed: number = 0;
   protected rotation: number = 0;
 
-  abstract update(): void;
+  constructor(props: GameObjectProps) {
+    this.position = props.position;
+  }
+
+  abstract decelerate(): void;
+
+  update(): void {
+    this.decelerate();
+  }
 
   protected get direction(): number {
     const direction = this.rotation / 90;
